@@ -11,6 +11,8 @@ struct Item: Codable {
     let wrapperType: String?
     let kind: String?
     let trackId: Int?
+    let collectionName: String?
+    let collectionPrice: Double?
     let artistName: String?
     let trackName: String?
     let trackCensoredName: String?
@@ -18,6 +20,7 @@ struct Item: Codable {
     let artworkUrl100: String?
     let releaseDate: String?
     let country: String?
+    let currency: String?
     let description: String?
     let shortDescription: String?
     let longDescription: String?
