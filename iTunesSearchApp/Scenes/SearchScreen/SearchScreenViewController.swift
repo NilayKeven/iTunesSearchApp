@@ -56,6 +56,7 @@ extension SearchScreenViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.searchedItems.removeAll()
         if searchedText.count != 0 {
             viewModel.search(with: searchedText, mediaType: selectedMediaType) {
                 self.refreshCollectionView()
@@ -64,8 +65,9 @@ extension SearchScreenViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        let topOffest:CGPoint = CGPoint(x: 0, y: -collectionView.contentInset.top)
+        collectionView?.setContentOffset(topOffest, animated: true)
         selectedMediaType = MediaType.allCases[selectedScope].rawValue
-        viewModel.searchedItems.removeAll()
         searchBarSearchButtonClicked(searchBar)
     }
 }
@@ -95,7 +97,9 @@ extension SearchScreenViewController: UICollectionViewDelegate, UICollectionView
         // Display cell --- Offset
         if viewModel.searchedItems.count - 1 == indexPath.row {
             viewModel.page += 1
-            searchBarSearchButtonClicked(searchBar)
+            viewModel.search(with: searchedText, mediaType: selectedMediaType) {
+                self.refreshCollectionView()
+            }
         }
     }
     
