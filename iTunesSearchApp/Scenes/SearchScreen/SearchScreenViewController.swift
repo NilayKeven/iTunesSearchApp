@@ -62,6 +62,12 @@ extension SearchScreenViewController: UISearchBarDelegate {
             }
         }
     }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        selectedMediaType = MediaType.allCases[selectedScope].rawValue
+        viewModel.searchedItems.removeAll()
+        searchBarSearchButtonClicked(searchBar)
+    }
 }
 
 extension SearchScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -87,6 +93,10 @@ extension SearchScreenViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // Display cell --- Offset
+        if viewModel.searchedItems.count - 1 == indexPath.row {
+            viewModel.page += 1
+            searchBarSearchButtonClicked(searchBar)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -94,10 +104,4 @@ extension SearchScreenViewController: UICollectionViewDelegate, UICollectionView
         let cellHeight = cellWidth + 100
         return CGSize(width: cellWidth, height: cellHeight)
     }
-    
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        selectedMediaType = MediaType.allCases[selectedScope].rawValue
-        searchBarSearchButtonClicked(searchBar)
-    }
-    
 }

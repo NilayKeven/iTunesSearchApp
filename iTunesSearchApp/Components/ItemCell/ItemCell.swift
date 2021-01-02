@@ -34,7 +34,6 @@ class ItemCell: UICollectionViewCell {
     }
     
     private func setupCell() {
-        layer.borderColor = UIColor.gray.cgColor
         itemImageView.contentMode = .scaleAspectFit
     }
 }

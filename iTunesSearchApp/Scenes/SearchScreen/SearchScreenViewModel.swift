@@ -10,12 +10,12 @@ import Foundation
 class SearchScreenViewModel {
    
     public var searchedItems = [ItemData]()
+    public var page: Int = 1
     
     func search(with term: String, mediaType: String, onComplete: @escaping () -> ()) {
         let formattedSearchText = term.replacingOccurrences(of: " ", with: "+")
-        SearchAPI.search(term: formattedSearchText, mediaType: mediaType).retrieve { [weak self] (items: SearchResult?) in
+        SearchAPI.search(term: formattedSearchText, mediaType: mediaType, page: page).retrieve { [weak self] (items: SearchResult?) in
             guard let self = self, let items = items?.results else { return }
-            self.searchedItems.removeAll()
             self.setSearchResultAsData(items: items)
             onComplete()
         }
