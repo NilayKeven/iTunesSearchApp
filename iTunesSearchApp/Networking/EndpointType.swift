@@ -37,24 +37,25 @@ extension EndpointType {
         
         let urlSession = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let _ = error {
-                print("ERROR DESCRIBTION: " + (error?.localizedDescription ?? "Client Error!"))
+                Logger.log.error(error?.localizedDescription ?? "Client Error!")
                 completion(nil)
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
-                (200...299).contains(httpResponse.statusCode) else {
-                    print("ERROR DESCRIBTION: Server Error!")
-                    completion(nil)
-                    return
+                  (200...299).contains(httpResponse.statusCode) else {
+                Logger.log.error("Server Error!")
+                completion(nil)
+                return
             }
             
             if let data = data {
                 let response = BaseResult(data: data)
                 guard let decodedData = response.decode(T.self) else {
-                    print("ERROR DESCRIBTION: Decode Error!")
+                    Logger.log.error("Decode Error!")
                     completion(nil)
                     return
                 }
+                Logger.log.info("Fetch data from \(baseURL)")
                 completion(decodedData)
             }
         }

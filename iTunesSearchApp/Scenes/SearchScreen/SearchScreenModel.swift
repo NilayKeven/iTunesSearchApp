@@ -15,6 +15,7 @@ struct Item: Codable {
     let collectionPrice: Double?
     let artistName: String?
     let trackName: String?
+    let trackPrice: Double?
     let trackCensoredName: String?
     let trackViewUrl: String?
     let artworkUrl100: String?

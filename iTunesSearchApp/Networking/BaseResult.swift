@@ -22,7 +22,7 @@ struct BaseResult {
             let response = try jsonDecoder.decode(T.self, from: data)
             return response
         } catch {
-            print(error)
+            Logger.log.error("Decode error: " + error.localizedDescription)
             return nil
         }
     }

@@ -7,6 +7,7 @@ target 'iTunesSearchApp' do
 
   # Pods for iTunesSearchApp
 	pod 'SDWebImage'
+  pod 'SwiftyBeaver'
 
   target 'iTunesSearchAppTests' do
     inherit! :search_paths

@@ -15,6 +15,7 @@ class SearchScreenViewController: UIViewController {
     private var viewModel = SearchScreenViewModel()
     private var searchedText: String = ""
     private var selectedMediaType: String = MediaType.all.rawValue
+    private let collectionCellIdentifier = "ItemCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,7 @@ class SearchScreenViewController: UIViewController {
         searchBar.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "ItemCell", bundle: nil), forCellWithReuseIdentifier: "ItemCell")
+        collectionView.register(UINib(nibName: collectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: collectionCellIdentifier)
     }
     
     private func setupSearchBar() {
@@ -55,9 +56,17 @@ extension SearchScreenViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.search(with: searchedText, mediaType: selectedMediaType) {
-            self.refreshCollectionView()
+        if searchedText.count != 0 {
+            viewModel.search(with: searchedText, mediaType: selectedMediaType) {
+                self.refreshCollectionView()
+            }
         }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        selectedMediaType = MediaType.allCases[selectedScope].rawValue
+        viewModel.searchedItems.removeAll()
+        searchBarSearchButtonClicked(searchBar)
     }
 }
 
@@ -67,9 +76,27 @@ extension SearchScreenViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemCell", for: indexPath) as? ItemCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionCellIdentifier, for: indexPath) as? ItemCell
         cell?.item = viewModel.searchedItems[indexPath.row]
         return cell ?? UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Navigate to item detail
+        let itemDetailViewModel = ItemDetailViewModel(item: viewModel.searchedItems[indexPath.row])
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let itemDetailViewController = storyboard.instantiateViewController(withIdentifier: "ItemDetailViewController") as? ItemDetailViewController {
+            itemDetailViewController.viewModel = itemDetailViewModel
+            navigationController?.pushViewController(itemDetailViewController, animated: true)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        // Display cell --- Offset
+        if viewModel.searchedItems.count - 1 == indexPath.row {
+            viewModel.page += 1
+            searchBarSearchButtonClicked(searchBar)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -77,10 +104,4 @@ extension SearchScreenViewController: UICollectionViewDelegate, UICollectionView
         let cellHeight = cellWidth + 100
         return CGSize(width: cellWidth, height: cellHeight)
     }
-    
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        selectedMediaType = MediaType.allCases[selectedScope].rawValue
-        searchBarSearchButtonClicked(searchBar)
-    }
-    
 }
