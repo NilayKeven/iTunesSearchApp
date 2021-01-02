@@ -2,17 +2,21 @@ PODS:
   - SDWebImage (5.10.0):
     - SDWebImage/Core (= 5.10.0)
   - SDWebImage/Core (5.10.0)
+  - SwiftyBeaver (1.9.3)
 
 DEPENDENCIES:
   - SDWebImage
+  - SwiftyBeaver
 
 SPEC REPOS:
   trunk:
     - SDWebImage
+    - SwiftyBeaver
 
 SPEC CHECKSUMS:
   SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
+  SwiftyBeaver: 2e8acd6fc90c6d0a27055867a290794926d57c02
 
-PODFILE CHECKSUM: dbc7c71e2ebfd2519be68f3c22645776864423eb
+PODFILE CHECKSUM: 38a7818d21605ff92a1236af4debbcd694e04cf4
 
 COCOAPODS: 1.10.0
