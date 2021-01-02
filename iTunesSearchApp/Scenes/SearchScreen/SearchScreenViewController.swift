@@ -14,9 +14,11 @@ class SearchScreenViewController: UIViewController {
     
     private var viewModel = SearchScreenViewModel()
     private var searchedText: String = ""
+    private var selectedMediaType: String = MediaType.all.rawValue
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSearchBar()
         setupDelegates()
     }
     
@@ -26,20 +28,35 @@ class SearchScreenViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "ItemCell", bundle: nil), forCellWithReuseIdentifier: "ItemCell")
     }
+    
+    private func setupSearchBar() {
+        searchBar.scopeButtonTitles = MediaType.allCases.map { $0.title }
+        searchBar.selectedScopeButtonIndex = 0
+        searchBar.showsScopeBar = true
+    }
+    
+    private func refreshCollectionView() {
+        DispatchQueue.main.async {
+            self.view.endEditing(true)
+            self.collectionView.reloadData()
+        }
+    }
 }
 
 extension SearchScreenViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > 2 {
             self.searchedText = searchText
+        } else if searchText.count == 0 {
+            searchedText = searchText
+            viewModel.searchedItems.removeAll()
+            refreshCollectionView()
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.search(with: searchedText) {
-            DispatchQueue.main.async {
-                self.view.endEditing(true)
-                self.collectionView.reloadData()                }
+        viewModel.search(with: searchedText, mediaType: selectedMediaType) {
+            self.refreshCollectionView()
         }
     }
 }
@@ -61,6 +78,9 @@ extension SearchScreenViewController: UICollectionViewDelegate, UICollectionView
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
-    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        selectedMediaType = MediaType.allCases[selectedScope].rawValue
+        searchBarSearchButtonClicked(searchBar)
+    }
     
 }

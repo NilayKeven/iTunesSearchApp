@@ -9,7 +9,7 @@ import Foundation
 
 enum SearchAPI: EndpointType {
     
-    case search(term: String)
+    case search(term: String, mediaType: String)
     
     var baseURL: URL {
         var urlComponent = URLComponents()
@@ -38,8 +38,9 @@ enum SearchAPI: EndpointType {
     
     var queryItems: [URLQueryItem] {
         switch self {
-        case .search(let term):
-            return [URLQueryItem(name: "term", value: String(term))]
+        case .search(let term, let mediaType):
+            return [URLQueryItem(name: "term", value: String(term)),
+                    URLQueryItem(name: "media", value: String(mediaType))]
         }
     }
     

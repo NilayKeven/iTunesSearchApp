@@ -18,18 +18,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" placeholder="Search" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pIs-vO-Env">
-                                <rect key="frame" x="0.0" y="88" width="414" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="bf7-SD-P0X"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="88" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pFb-cS-se4">
-                                <rect key="frame" x="0.0" y="146" width="414" height="716"/>
+                                <rect key="frame" x="0.0" y="154" width="414" height="708"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fwH-DC-WpV">
                                     <size key="itemSize" width="128" height="128"/>
@@ -54,7 +47,7 @@
                         <constraints>
                             <constraint firstItem="pFb-cS-se4" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="36v-ca-pzC"/>
                             <constraint firstItem="pIs-vO-Env" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="66j-sp-kMc"/>
-                            <constraint firstItem="pFb-cS-se4" firstAttribute="top" secondItem="pIs-vO-Env" secondAttribute="bottom" constant="-12" id="DBz-bK-y6R"/>
+                            <constraint firstItem="pFb-cS-se4" firstAttribute="top" secondItem="pIs-vO-Env" secondAttribute="bottom" constant="10" id="DBz-bK-y6R"/>
                             <constraint firstItem="pIs-vO-Env" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Fg3-fw-0rJ"/>
                             <constraint firstItem="pIs-vO-Env" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ZWD-xs-flE"/>
                             <constraint firstItem="pFb-cS-se4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="d2v-RE-lPB"/>

@@ -7,6 +7,29 @@
 
 import Foundation
 
+public enum MediaType: String, CaseIterable {
+    case all = "all"
+    case movie = "movie"
+    case music = "music"
+    case app = "software"
+    case book = "ebook"
+    
+    var title: String {
+        switch self {
+        case .all:
+            return "All"
+        case .movie:
+            return "Movies"
+        case .music:
+            return "Musics"
+        case .app:
+            return "Apps"
+        case .book:
+            return "Books"
+        }
+    }
+}
+
 class SearchScreenViewModel {
     
     init() {
@@ -15,9 +38,9 @@ class SearchScreenViewModel {
     
     public var searchedItems = [ItemCellData]()
     
-    func search(with term: String, onComplete: @escaping () -> ()) {
+    func search(with term: String, mediaType: String, onComplete: @escaping () -> ()) {
         let formattedSearchText = term.replacingOccurrences(of: " ", with: "+")
-        SearchAPI.search(term: formattedSearchText).retrieve { [weak self] (items: SearchResult?) in
+        SearchAPI.search(term: formattedSearchText, mediaType: mediaType).retrieve { [weak self] (items: SearchResult?) in
             guard let self = self, let searchedItems = items?.results else { return }
             self.searchedItems.removeAll()
             self.setSearchResultAsData(items: searchedItems)
