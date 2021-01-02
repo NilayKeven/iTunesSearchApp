@@ -15,7 +15,7 @@ class ItemCell: UICollectionViewCell {
     @IBOutlet weak var itemReleaseDateLabel: UILabel!
     @IBOutlet weak var itemPriceLabel: UILabel!
     
-    var item: ItemCellData? {
+    var item: ItemData? {
         didSet {
             setData(item: item)
         }
@@ -26,7 +26,7 @@ class ItemCell: UICollectionViewCell {
         setupCell()
     }
     
-    private func setData(item: ItemCellData?) {
+    private func setData(item: ItemData?) {
         itemNameLabel.text = item?.name
         itemReleaseDateLabel.text = item?.releaseDate
         itemPriceLabel.text = String(item?.price ?? 0) + " " + (item?.currency ?? "")
@@ -34,8 +34,6 @@ class ItemCell: UICollectionViewCell {
     }
     
     private func setupCell() {
-        layer.cornerRadius = 10
-        layer.borderWidth = 1
         layer.borderColor = UIColor.gray.cgColor
         itemImageView.contentMode = .scaleAspectFit
     }
